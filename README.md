@@ -61,7 +61,7 @@ curl -X POST https://okstays.com/api/mcp -H 'Content-Type: application/json' -H 
 
 ## Tools
 
-All seven tools only read data.
+All eight tools only read data.
 
 | Tool | What it does |
 |---|---|
@@ -72,6 +72,7 @@ All seven tools only read data.
 | `find_similar_hotels` | Hotels in the same city that score most like a given one, optionally cheaper |
 | `list_cities` | The destinations covered, with hotel counts, optionally for one country |
 | `get_filters` | Every comfort filter and travel style usable in `search_hotels` |
+| `plan_trip` | Hotels for a multi-stop trip (e.g. Lisbon 4 nights, Porto 3, Madrid 5): the best match and alternatives for each stop, the stay dates and an indicative total, with links that open each hotel's page with those dates |
 
 ## Example prompts
 
@@ -80,6 +81,7 @@ All seven tools only read data.
 - Best hotels in Tokyo for digital nomads
 - Compare the top two and tell me which is better value
 - Find something like the first one, but cheaper
+- Plan hotels for Lisbon 4 nights, Porto 3 and Madrid 5 from 10 May
 
 ## Data, privacy and limits
 

@@ -15,8 +15,8 @@ OKstays is a hosted, remote MCP server. There is nothing to download, build or r
    ```
    Clients that use another key for the transport take `"type": "http"` (VS Code) or only `"url"` (Cursor).
 2. Do not add headers, environment variables or credentials: the server needs none.
-3. Check the connection by listing the tools. There should be seven, all read-only: `get_city_overview`,
-   `search_hotels`, `get_hotel`, `compare_hotels`, `find_similar_hotels`, `list_cities`, `get_filters`.
+3. Check the connection by listing the tools. There should be eight, all read-only: `get_city_overview`,
+   `search_hotels`, `get_hotel`, `compare_hotels`, `find_similar_hotels`, `plan_trip`, `list_cities`, `get_filters`.
 4. Try it: call `list_cities` with `{"country": "Spain"}`, then `search_hotels` with `{"location": "Barcelona"}`.
 
 If the connection fails, test the endpoint directly:
