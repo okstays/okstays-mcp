@@ -2,7 +2,7 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "com.okstays/okstays",
   "title": "OKstays",
-  "description": "Hotels ranked by real comfort, not commission: search 30,000+ hotels by quiet, beds, WiFi and more",
+  "description": "Hotels ranked by real comfort, not commission: efficient AC, comfy beds, soundproof rooms and more",
   "version": "2.5.0",
   "websiteUrl": "https://okstays.com/mcp",
   "icons": [

@@ -1,7 +1,7 @@
 # OKstays MCP server
 
 Find hotels you'll actually sleep well in. OKstays scores 30,000+ hotels in 80+ destinations on 67 comfort signals
-(quiet rooms, bed comfort, shower, WiFi, air conditioning, cleanliness, neighbourhood safety and more) and combines
+(efficient AC, comfy beds, real soundproofing, quiet nights, spacious rooms, recent renovations, safe and walkable neighbourhoods and more) and combines
 them into one Comfort Score from 0 to 10. Five must-haves (clean, comfy beds, good shower, bug-free, safe area) weigh
 40%, and a hotel that fails one is never ranked. Hotels can't pay to be ranked.
 
@@ -78,7 +78,7 @@ All eight tools only read data.
 
 - Which neighbourhoods in Lisbon have the most comfortable hotels?
 - Find a quiet hotel in Porto under $200 a night
-- Best hotels in Tokyo for digital nomads
+- Hotels in Bangkok with efficient AC and soundproof rooms
 - Compare the top two and tell me which is better value
 - Find something like the first one, but cheaper
 - Plan hotels for Lisbon 4 nights, Porto 3 and Madrid 5 from 10 May
