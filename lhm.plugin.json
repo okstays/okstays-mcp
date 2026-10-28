@@ -1,0 +1,268 @@
+{
+  "author": "okstays",
+  "authorUrl": "https://github.com/okstays",
+  "cloudEndpoint": "https://okstays.com/api/mcp",
+  "description": "Hotels ranked by real comfort: 30,000+ hotels scored on efficient AC, comfy beds, soundproofing, spacious rooms and more.",
+  "homepage": "https://okstays.com",
+  "icon": "https://okstays.com/favicon-192x192.png",
+  "identifier": "okstays-okstays-mcp",
+  "name": "OKstays",
+  "prompts": [],
+  "resources": [
+    {
+      "name": "hotel_cards",
+      "title": "OKstays hotel cards",
+      "uri": "ui://okstays/hotel-cards-v1",
+      "description": "Hotel cards with photo, Comfort Score, price and a link to the hotel's OKstays page.",
+      "mimeType": "text/html;profile=mcp-app"
+    }
+  ],
+  "tools": [
+    {
+      "name": "search_hotels",
+      "description": "Rank hotels in a city by the OKstays Comfort Score (AI scores on the comfort filters; cleanliness, beds, shower, bugs and safety count 40%). Only hotels that pass all five must-haves are returned. Optionally rank for a travel style (persona) and/or require specific strengths. Returns up to 10 hotels with strengths, caveats, price and links.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "location": {
+            "type": "string",
+            "description": "City name or slug, e.g. 'Barcelona' or 'new-york'. Use list_cities for coverage."
+          },
+          "persona": {
+            "type": "string",
+            "description": "Travel style to rank for: digital-nomad, deep-sleep, avoid-crowds, romantic, family, business, solo-safe, luxury, budget-comfort."
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Filter ids the hotel must score 8+ on, e.g. ['soundproofing', 'reliable_wifi']. See get_filters."
+          },
+          "min_score": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 10,
+            "description": "Minimum Comfort Score (0-10)."
+          },
+          "max_price": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Maximum indicative price per night in USD."
+          },
+          "district": {
+            "type": "string",
+            "description": "Neighbourhood to restrict to, e.g. 'Gothic Quarter'. get_city_overview lists the districts."
+          },
+          "near_lat": {
+            "type": "number",
+            "description": "Latitude of a landmark or address the user names (not the user's own location); with near_lng restricts results to hotels within radius_km and reports distance_km."
+          },
+          "near_lng": {
+            "type": "number",
+            "description": "Longitude of the point of interest."
+          },
+          "radius_km": {
+            "type": "number",
+            "minimum": 0.1,
+            "description": "Search radius around near_lat/near_lng in km (default 3)."
+          },
+          "sort_by": {
+            "type": "string",
+            "enum": [
+              "best",
+              "cheapest",
+              "priciest",
+              "value",
+              "nearest"
+            ],
+            "description": "best = Comfort Score (default); value = Comfort Score per $100; nearest needs near_lat/near_lng."
+          }
+        },
+        "required": [
+          "location"
+        ]
+      },
+      "annotations": {
+        "title": "Search hotels",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "_meta": {
+        "ui": {
+          "resourceUri": "ui://okstays/hotel-cards-v1"
+        }
+      }
+    },
+    {
+      "name": "get_hotel",
+      "description": "Full details for one hotel: Comfort Score breakdown, every filter score with its explanation, caveats, price and links.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "hotel_id": {
+            "type": "string",
+            "description": "Hotel id (numeric string) from search_hotels."
+          }
+        },
+        "required": [
+          "hotel_id"
+        ]
+      },
+      "annotations": {
+        "title": "Get hotel",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "_meta": {
+        "ui": {
+          "resourceUri": "ui://okstays/hotel-cards-v1"
+        }
+      }
+    },
+    {
+      "name": "list_cities",
+      "description": "Destinations covered, with hotel counts. Optionally only those in one country.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "country": {
+            "type": "string",
+            "description": "Country name to filter by, e.g. 'Spain'."
+          }
+        }
+      },
+      "annotations": {
+        "title": "List cities",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "get_filters",
+      "description": "All comfort filters (ids, names, descriptions, categories) usable in search_hotels, plus the travel styles (personas).",
+      "inputSchema": {
+        "type": "object",
+        "properties": {}
+      },
+      "annotations": {
+        "title": "Get filters",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "compare_hotels",
+      "description": "Compare 2-4 hotels side by side: Comfort Score breakdown, price, strengths, caveats, the filters where they differ most, and a verdict (best comfort, cheapest, best value).",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "hotel_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 2,
+            "maxItems": 4,
+            "description": "2-4 hotel ids from search_hotels."
+          }
+        },
+        "required": [
+          "hotel_ids"
+        ]
+      },
+      "annotations": {
+        "title": "Compare hotels",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "_meta": {
+        "ui": {
+          "resourceUri": "ui://okstays/hotel-cards-v1"
+        }
+      }
+    },
+    {
+      "name": "find_similar_hotels",
+      "description": "Hotels in the same city with the comfort profile closest to a given hotel (similar scores across the comfort filters). Use cheaper_only for 'like this one but cheaper'.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "hotel_id": {
+            "type": "string",
+            "description": "Hotel id to find alternatives for."
+          },
+          "cheaper_only": {
+            "type": "boolean",
+            "description": "Only hotels priced below this one."
+          },
+          "max_price": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Maximum price per night in USD."
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 10,
+            "description": "How many to return (default 5)."
+          }
+        },
+        "required": [
+          "hotel_id"
+        ]
+      },
+      "annotations": {
+        "title": "Find similar hotels",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "_meta": {
+        "ui": {
+          "resourceUri": "ui://okstays/hotel-cards-v1"
+        }
+      }
+    },
+    {
+      "name": "get_city_overview",
+      "description": "Snapshot of a destination: hotel counts, average Comfort Score, median price, where its hotels beat and trail the average hotel, the best neighbourhoods, and which travel styles it suits. Use it when the user is choosing a destination or an area; for a request for hotels (e.g. 'quiet hotels in Bangkok'), call search_hotels directly.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "location": {
+            "type": "string",
+            "description": "City name or slug."
+          }
+        },
+        "required": [
+          "location"
+        ]
+      },
+      "annotations": {
+        "title": "Get city overview",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "_meta": {
+        "ui": {
+          "resourceUri": "ui://okstays/hotel-cards-v1"
+        }
+      }
+    }
+  ],
+  "version": "2.4.0"
+}
