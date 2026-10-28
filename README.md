@@ -61,7 +61,7 @@ curl -X POST https://okstays.com/api/mcp -H 'Content-Type: application/json' -H 
 
 ## Tools
 
-All eight tools only read data.
+All eight tools only read data. Inputs, outputs and access level for each: [TOOLS.md](TOOLS.md).
 
 | Tool | What it does |
 |---|---|
