@@ -1,0 +1,10 @@
+{
+  "name": "okstays",
+  "version": "2.5.0",
+  "description": "Hotels ranked by real comfort: 30,000+ hotels in 80+ destinations scored on quiet rooms, beds, WiFi, AC and more.",
+  "mcpServers": {
+    "okstays": {
+      "httpUrl": "https://okstays.com/api/mcp"
+    }
+  }
+}

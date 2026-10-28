@@ -1,0 +1,7 @@
+{
+  "mcpServers": {
+    "okstays": {
+      "url": "https://okstays.com/api/mcp"
+    }
+  }
+}

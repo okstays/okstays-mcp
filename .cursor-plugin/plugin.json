@@ -1,0 +1,20 @@
+{
+  "name": "okstays",
+  "description": "Hotels ranked by real comfort: 30,000+ hotels in 80+ destinations scored on quiet rooms, beds, WiFi, AC and more.",
+  "version": "2.5.0",
+  "author": {
+    "name": "OKstays",
+    "email": "hello@okstays.com"
+  },
+  "homepage": "https://okstays.com/mcp",
+  "repository": "https://github.com/okstays/okstays-mcp",
+  "license": "MIT",
+  "keywords": [
+    "hotels",
+    "travel",
+    "hotel-search",
+    "trip-planning",
+    "mcp"
+  ],
+  "logo": "logo-400.png"
+}
