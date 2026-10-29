@@ -80,9 +80,9 @@ default 5).
 
 **Outputs:** every comfort filter (id, name, description, category) and every travel style.
 
-## plan_trip (next release, early November 2026)
+## plan_trip
 
-**Access:** Read. Hotels for a multi-stop trip. Not live yet: it ships with the next server release.
+**Access:** Read. Hotels for a multi-stop trip.
 
 **Inputs:** `stops` (array of 1-8, required: `location`, `nights` 1-30, optional `district`), `start_date`
 (YYYY-MM-DD), `persona`, `tags`, `max_price`, `min_score`, `adults` (1-8, default 2), `alternatives` (0-3, default 2).
