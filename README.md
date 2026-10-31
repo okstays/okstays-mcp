@@ -1,6 +1,6 @@
 # OKstays MCP server
 
-[![MCP health](https://github.com/okstays/okstays-mcp/actions/workflows/health.yml/badge.svg)](https://github.com/okstays/okstays-mcp/actions/workflows/health.yml)
+[![MCP health](https://github.com/okstays/okstays-mcp/actions/workflows/health.yml/badge.svg)](https://github.com/okstays/okstays-mcp/actions/workflows/health.yml) [![mcptry](https://mcptry.com/badge/com.okstays/okstays)](https://mcptry.com/servers/com.okstays/okstays)
 
 Find hotels you'll actually sleep well in. OKstays scores 30,000+ hotels in 80+ destinations on 67 comfort signals
 (efficient AC, comfy beds, real soundproofing, quiet nights, spacious rooms, recent renovations, safe and walkable neighbourhoods and more) and combines
