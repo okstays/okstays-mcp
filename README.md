@@ -1,5 +1,7 @@
 # OKstays MCP server
 
+[![MCP health](https://github.com/okstays/okstays-mcp/actions/workflows/health.yml/badge.svg)](https://github.com/okstays/okstays-mcp/actions/workflows/health.yml)
+
 Find hotels you'll actually sleep well in. OKstays scores 30,000+ hotels in 80+ destinations on 67 comfort signals
 (efficient AC, comfy beds, real soundproofing, quiet nights, spacious rooms, recent renovations, safe and walkable neighbourhoods and more) and combines
 them into one Comfort Score from 0 to 10. Five must-haves (clean, comfy beds, good shower, bug-free, safe area) weigh
@@ -66,13 +68,17 @@ All eight tools only read data. Inputs, outputs and access level for each: [TOOL
 | Tool | What it does |
 |---|---|
 | `get_city_overview` | A destination at a glance: hotels scored, average Comfort Score, median price, what its hotels do best and worst, the best neighbourhoods, the travel styles it suits |
-| `search_hotels` | Up to 10 hotels in a city ranked by Comfort Score, optionally for a travel style (deep sleep, digital nomad, family, romantic, business, solo, luxury, budget, avoid the crowds), required qualities, price, neighbourhood or distance from a landmark |
-| `get_hotel` | One hotel in full: score breakdown, every signal's score with its explanation, caveats, price, link |
+| `search_hotels` | Up to 10 hotels per page in a city ranked by Comfort Score, optionally for a travel style (deep sleep, digital nomad, family, romantic, business, solo, luxury, budget, avoid the crowds), required qualities, price, neighbourhood or distance from a landmark; or a hotel looked up by name |
+| `get_hotel` | One hotel: score breakdown, what the scores are based on, the must-haves, strengths and complaints with their explanations (every signal on request), price, link |
 | `compare_hotels` | Two to four hotels side by side, with a verdict: best comfort, cheapest, best value |
 | `find_similar_hotels` | Hotels in the same city that score most like a given one, optionally cheaper |
 | `list_cities` | The destinations covered, with hotel counts, optionally for one country |
 | `get_filters` | Every comfort filter and travel style usable in `search_hotels` |
 | `plan_trip` | Hotels for a multi-stop trip (e.g. Lisbon 4 nights, Porto 3, Madrid 5): the best match and alternatives for each stop, the stay dates and an indicative total, with links that open each hotel's page with those dates |
+
+Give your assistant your dates and the number of guests, and every hotel link it shows opens on that stay: Book Now on
+the hotel's page then books those nights. Clients that show MCP prompts (Claude, Claude Desktop, VS Code) also get four
+ready-made ones: Find a comfortable hotel, Plan a multi-stop trip, Compare hotels, Choose where to stay.
 
 ## Example prompts
 
@@ -82,14 +88,15 @@ All eight tools only read data. Inputs, outputs and access level for each: [TOOL
 - Compare the top two and tell me which is better value
 - Find something like the first one, but cheaper
 - Plan hotels for Lisbon 4 nights, Porto 3 and Madrid 5 from 10 May
+- Is the Pestana Palace in Lisbon quiet? We're there 12 to 15 March, two of us
 
 ## Data, privacy and limits
 
 - Results link to each hotel's page on okstays.com, with photos, a map and prices. Prices are indicative rates for
   two adults on a sample date. OKstays earns a commission when people book through the booking links on its website;
   this never affects the rankings, and tool results contain no affiliate links.
-- Fair use: 60 requests a minute and 2,000 a day per caller. Each tool call is logged (tool, search parameters,
-  client name, a hashed caller id) for 30 days for limits and abuse prevention: https://okstays.com/privacy
+- Fair use: 60 requests a minute and 2,000 a day per caller. Each tool call and prompt is logged (tool or prompt,
+  search parameters, client name, a hashed caller id) for 30 days for limits and abuse prevention: https://okstays.com/privacy
 - Terms: https://okstays.com/terms
 - Support: hello@okstays.com
 
@@ -102,6 +109,8 @@ clients need:
   as `com.okstays/okstays`;
 - [`gemini-extension.json`](gemini-extension.json) (Gemini CLI) and [`.cursor-plugin/plugin.json`](.cursor-plugin/plugin.json)
   with [`mcp.json`](mcp.json) (Cursor), which only point those clients at the endpoint;
-- the logo (`logo-400.png`).
+- the logo (`logo-400.png`);
+- [`.github/workflows/health.yml`](.github/workflows/health.yml), a daily check that the live server answers (the badge
+  above).
 
 The configuration files and documentation are MIT-licensed ([LICENSE](LICENSE)); the OKstays name and logo are not.

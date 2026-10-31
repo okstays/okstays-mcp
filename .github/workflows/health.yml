@@ -1,0 +1,20 @@
+name: MCP health
+
+# Once a day, and by hand after each backend deploy (Actions → MCP health → Run workflow): calls the live server like an
+# AI assistant would. A failed run sends GitHub's failure email to whoever last edited this schedule.
+on:
+  schedule:
+    - cron: "17 6 * * *"     # 06:17 UTC, 07:17 or 08:17 in Barcelona
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Call the live MCP server
+        run: python3 .github/health_check.py https://okstays.com/api/mcp
