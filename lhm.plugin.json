@@ -7,12 +7,106 @@
   "icon": "https://okstays.com/favicon-192x192.png",
   "identifier": "okstays-okstays-mcp",
   "name": "OKstays",
-  "prompts": [],
+  "prompts": [
+    {
+      "name": "find_hotel",
+      "title": "Find a comfortable hotel",
+      "description": "Hotels in a destination ranked by comfort for what matters to you, with links that book your dates.",
+      "arguments": [
+        {
+          "name": "destination",
+          "description": "City or island, e.g. Lisbon or Bali",
+          "required": true
+        },
+        {
+          "name": "what_matters",
+          "description": "e.g. quiet nights, a great bed, fast WiFi, near the beach",
+          "required": false
+        },
+        {
+          "name": "budget",
+          "description": "Highest price per night, e.g. US$150",
+          "required": false
+        },
+        {
+          "name": "dates",
+          "description": "Check-in and check-out, e.g. 12 to 15 March 2027",
+          "required": false
+        },
+        {
+          "name": "guests",
+          "description": "Number of adults, e.g. 2",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "plan_my_trip",
+      "title": "Plan a multi-stop trip",
+      "description": "One hotel per stop for a trip through several destinations, dated back to back, with an indicative total.",
+      "arguments": [
+        {
+          "name": "stops",
+          "description": "Destinations and nights in order, e.g. Lisbon 4 nights, Porto 3, Madrid 5",
+          "required": true
+        },
+        {
+          "name": "start_date",
+          "description": "First check-in, e.g. 2027-03-12",
+          "required": false
+        },
+        {
+          "name": "travel_style",
+          "description": "e.g. couples, families, remote work, deep sleep",
+          "required": false
+        },
+        {
+          "name": "budget",
+          "description": "Highest price per night, e.g. US$200",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "compare_my_hotels",
+      "title": "Compare hotels",
+      "description": "Two to four hotels you're considering, side by side: comfort, what guests complain about, price and a verdict.",
+      "arguments": [
+        {
+          "name": "hotels",
+          "description": "Hotel names, e.g. Pestana Palace, Memmo Alfama",
+          "required": true
+        },
+        {
+          "name": "city",
+          "description": "Where they are, e.g. Lisbon",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "choose_area",
+      "title": "Choose where to stay",
+      "description": "The best areas of a destination for comfort, with their prices and top hotels.",
+      "arguments": [
+        {
+          "name": "destination",
+          "description": "City or island, e.g. Bangkok",
+          "required": true
+        },
+        {
+          "name": "what_matters",
+          "description": "e.g. quiet, walkable, near the beach, nightlife",
+          "required": false
+        }
+      ]
+    }
+  ],
   "resources": [
     {
       "name": "hotel_cards",
       "title": "OKstays hotel cards",
-      "uri": "ui://okstays/hotel-cards-v1",
+      "uri": "ui://okstays/hotel-cards-v2",
       "description": "Hotel cards with photo, Comfort Score, price and a link to the hotel's OKstays page.",
       "mimeType": "text/html;profile=mcp-app"
     }
@@ -20,7 +114,7 @@
   "tools": [
     {
       "name": "search_hotels",
-      "description": "Rank hotels in a city by the OKstays Comfort Score (AI scores on the comfort filters; cleanliness, beds, shower, bugs and safety count 40%). Only hotels that pass all five must-haves are returned. Optionally rank for a travel style (persona) and/or require specific strengths. Returns up to 10 hotels with strengths, caveats, price and links.",
+      "description": "Rank hotels in a city by the OKstays Comfort Score (0-10 from comfort signals; cleanliness, beds, shower, bugs and safety count 40%). Only hotels that pass all five must-haves are returned. Optionally rank for a travel style (persona) and/or require specific strengths. Returns up to 10 hotels per page (limit, page) with strengths, caveats, price and links. To check a hotel the user already has in mind, pass hotel_name. Pass the user's dates and guests (checkin, checkout, adults) when known.",
       "inputSchema": {
         "type": "object",
         "properties": {
@@ -77,6 +171,36 @@
               "nearest"
             ],
             "description": "best = Comfort Score (default); value = Comfort Score per $100; nearest needs near_lat/near_lng."
+          },
+          "hotel_name": {
+            "type": "string",
+            "description": "Find a hotel by name in this city (part of the name works, e.g. 'Pestana'), including hotels outside our rankings; the other filters are then ignored."
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 10,
+            "description": "Hotels per page (default 10)."
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5,
+            "description": "Page of results (default 1; up to 5) for 'show me more'."
+          },
+          "checkin": {
+            "type": "string",
+            "description": "User's check-in date, YYYY-MM-DD, if given: links then open on this stay."
+          },
+          "checkout": {
+            "type": "string",
+            "description": "Check-out date, YYYY-MM-DD."
+          },
+          "adults": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 8,
+            "description": "Guests per room, if given."
           }
         },
         "required": [
@@ -92,19 +216,48 @@
       },
       "_meta": {
         "ui": {
-          "resourceUri": "ui://okstays/hotel-cards-v1"
+          "resourceUri": "ui://okstays/hotel-cards-v2"
         }
       }
     },
     {
       "name": "get_hotel",
-      "description": "Full details for one hotel: Comfort Score breakdown, every filter score with its explanation, caveats, price and links.",
+      "description": "One hotel in depth: Comfort Score breakdown, what the scores rest on, the five must-haves, its strengths and complaints with the reason behind each score, price and links. Pass focus with what the user asked about; detail='full' adds every scored signal (about four times longer).",
       "inputSchema": {
         "type": "object",
         "properties": {
           "hotel_id": {
             "type": "string",
             "description": "Hotel id (numeric string) from search_hotels."
+          },
+          "focus": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Signals the user asked about, as filter ids or names (e.g. ['quiet', 'bed', 'wifi']); always included with their reasons."
+          },
+          "detail": {
+            "type": "string",
+            "enum": [
+              "summary",
+              "full"
+            ],
+            "description": "summary (default) or full: every scored signal with its explanation, about four times longer."
+          },
+          "checkin": {
+            "type": "string",
+            "description": "User's check-in date, YYYY-MM-DD, if given: links then open on this stay."
+          },
+          "checkout": {
+            "type": "string",
+            "description": "Check-out date, YYYY-MM-DD."
+          },
+          "adults": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 8,
+            "description": "Guests per room, if given."
           }
         },
         "required": [
@@ -120,7 +273,7 @@
       },
       "_meta": {
         "ui": {
-          "resourceUri": "ui://okstays/hotel-cards-v1"
+          "resourceUri": "ui://okstays/hotel-cards-v2"
         }
       }
     },
@@ -173,6 +326,20 @@
             "minItems": 2,
             "maxItems": 4,
             "description": "2-4 hotel ids from search_hotels."
+          },
+          "checkin": {
+            "type": "string",
+            "description": "User's check-in date, YYYY-MM-DD, if given: links then open on this stay."
+          },
+          "checkout": {
+            "type": "string",
+            "description": "Check-out date, YYYY-MM-DD."
+          },
+          "adults": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 8,
+            "description": "Guests per room, if given."
           }
         },
         "required": [
@@ -188,7 +355,7 @@
       },
       "_meta": {
         "ui": {
-          "resourceUri": "ui://okstays/hotel-cards-v1"
+          "resourceUri": "ui://okstays/hotel-cards-v2"
         }
       }
     },
@@ -216,6 +383,20 @@
             "minimum": 1,
             "maximum": 10,
             "description": "How many to return (default 5)."
+          },
+          "checkin": {
+            "type": "string",
+            "description": "User's check-in date, YYYY-MM-DD, if given: links then open on this stay."
+          },
+          "checkout": {
+            "type": "string",
+            "description": "Check-out date, YYYY-MM-DD."
+          },
+          "adults": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 8,
+            "description": "Guests per room, if given."
           }
         },
         "required": [
@@ -231,7 +412,7 @@
       },
       "_meta": {
         "ui": {
-          "resourceUri": "ui://okstays/hotel-cards-v1"
+          "resourceUri": "ui://okstays/hotel-cards-v2"
         }
       }
     },
@@ -244,6 +425,20 @@
           "location": {
             "type": "string",
             "description": "City name or slug."
+          },
+          "checkin": {
+            "type": "string",
+            "description": "User's check-in date, YYYY-MM-DD, if given: links then open on this stay."
+          },
+          "checkout": {
+            "type": "string",
+            "description": "Check-out date, YYYY-MM-DD."
+          },
+          "adults": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 8,
+            "description": "Guests per room, if given."
           }
         },
         "required": [
@@ -259,7 +454,7 @@
       },
       "_meta": {
         "ui": {
-          "resourceUri": "ui://okstays/hotel-cards-v1"
+          "resourceUri": "ui://okstays/hotel-cards-v2"
         }
       }
     },
@@ -349,10 +544,10 @@
       },
       "_meta": {
         "ui": {
-          "resourceUri": "ui://okstays/hotel-cards-v1"
+          "resourceUri": "ui://okstays/hotel-cards-v2"
         }
       }
     }
   ],
-  "version": "2.5.0"
+  "version": "3.0.0"
 }
