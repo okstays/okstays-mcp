@@ -10,7 +10,18 @@ on the [official MCP Registry](https://registry.modelcontextprotocol.io) (`com.o
   by email.
 - Questions: hello@okstays.com
 
-## 3.0.0 (live)
+## 3.1.0 (live)
+
+- Every tool has a display title, and its description says when to use it and what it returns.
+- Hotel links also carry `via=mcp`, so okstays.com still recognises them after ChatGPT replaces `utm_source` with its own.
+- `get_hotel` no longer shows hotel cards. In ChatGPT, one card area per answer is redrawn by every call that has cards,
+  so the last hotel looked up kept replacing the list. Lists, comparisons, similar hotels, destination overviews and
+  trips keep their cards.
+- The hotel cards also declare ChatGPT's own content and link policy (`openai/widgetCSP`).
+- `get_hotel` adds `city_hotels`, the number of hotels its `city_rank` is out of.
+- An unexpected failure returns a tool error that says what to try, instead of a bare JSON-RPC error.
+
+## 3.0.0
 
 Breaking changes, released without the usual 30 days' notice because no integration depended on these fields yet:
 - `get_hotel` returns a summary by default: the score breakdown, the five must-haves, the strongest signals and the
