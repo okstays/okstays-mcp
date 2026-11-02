@@ -106,7 +106,7 @@
     {
       "name": "hotel_cards",
       "title": "OKstays hotel cards",
-      "uri": "ui://okstays/hotel-cards-v2",
+      "uri": "ui://okstays/hotel-cards-v4",
       "description": "Hotel cards with photo, Comfort Score, price and a link to the hotel's OKstays page.",
       "mimeType": "text/html;profile=mcp-app"
     }
@@ -114,7 +114,8 @@
   "tools": [
     {
       "name": "search_hotels",
-      "description": "Rank hotels in a city by the OKstays Comfort Score (0-10 from comfort signals; cleanliness, beds, shower, bugs and safety count 40%). Only hotels that pass all five must-haves are returned. Optionally rank for a travel style (persona) and/or require specific strengths. Returns up to 10 hotels per page (limit, page) with strengths, caveats, price and links. To check a hotel the user already has in mind, pass hotel_name. Pass the user's dates and guests (checkin, checkout, adults) when known.",
+      "title": "Search hotels",
+      "description": "Use this when the user wants hotels in a destination (e.g. 'quiet hotels in Bangkok under $150'), or asks about a hotel by name (hotel_name). Returns up to 10 hotels per page, ranked by the OKstays Comfort Score (0-10 from what guests report: Comfort & Essentials 60%, the five must-haves (cleanliness, beds, shower, bugs and safety) 30% and sleep and room 30%; Perks & Facilities 15%; Service & Hospitality 15%; Access & Convenience 10%; repeated complaints about any must-have keep a hotel out) or by a travel style's score (half the Comfort Score, half how well it fits the style), highest first (ties go to the hotel more guests reviewed), each with strengths, complaints, indicative price and its okstays.com link. Filters: travel style, signals the hotel must score 8+ on, price, minimum score, neighbourhood, distance from a point, and the kind of stay: property_type hotels (default), apartments, hostels or any (the long-stays persona defaults to any). Pass the user's dates and guests when known. Places to stay only, not flights or car hire. Read-only, no sign-in.",
       "inputSchema": {
         "type": "object",
         "properties": {
@@ -124,7 +125,17 @@
           },
           "persona": {
             "type": "string",
-            "description": "Travel style to rank for: digital-nomad, deep-sleep, avoid-crowds, romantic, family, business, solo-safe, luxury, budget-comfort."
+            "description": "Travel style to rank for: digital-nomad, deep-sleep, avoid-crowds, romantic, family, business, solo-safe, luxury, budget-comfort, long-stays."
+          },
+          "property_type": {
+            "type": "string",
+            "enum": [
+              "hotels",
+              "apartments",
+              "hostels",
+              "any"
+            ],
+            "description": "property_type: hotels (default), apartments, hostels or any. hotels includes guest houses, B&Bs, aparthotels and resorts; apartments includes holiday homes, villas and homestays; any adds every kind, boats and campsites too. The long-stays persona defaults to any."
           },
           "tags": {
             "type": "array",
@@ -190,17 +201,17 @@
           },
           "checkin": {
             "type": "string",
-            "description": "User's check-in date, YYYY-MM-DD, if given: links then open on this stay."
+            "description": "User's check-in date, YYYY-MM-DD (e.g. 2027-03-12), if given: links then open on this stay."
           },
           "checkout": {
             "type": "string",
-            "description": "Check-out date, YYYY-MM-DD."
+            "description": "Check-out date, YYYY-MM-DD (e.g. 2027-03-15)."
           },
           "adults": {
             "type": "integer",
             "minimum": 1,
             "maximum": 8,
-            "description": "Guests per room, if given."
+            "description": "Guests per room (1-8), if given."
           }
         },
         "required": [
@@ -216,13 +227,14 @@
       },
       "_meta": {
         "ui": {
-          "resourceUri": "ui://okstays/hotel-cards-v2"
+          "resourceUri": "ui://okstays/hotel-cards-v4"
         }
       }
     },
     {
       "name": "get_hotel",
-      "description": "One hotel in depth: Comfort Score breakdown, what the scores rest on, the five must-haves, its strengths and complaints with the reason behind each score, price and links. Pass focus with what the user asked about; detail='full' adds every scored signal (about four times longer).",
+      "title": "Hotel details",
+      "description": "Use this when the user asks about one hotel: why it scores as it does, or whether it's quiet, clean or good for sleep or work. Returns the Comfort Score breakdown, what the scores rest on, the five must-haves, its strengths and complaints with the reason behind each score, price and its okstays.com link. Pass focus with what the user asked about; detail='full' adds every scored signal (about four times longer). Read-only, no sign-in.",
       "inputSchema": {
         "type": "object",
         "properties": {
@@ -247,17 +259,17 @@
           },
           "checkin": {
             "type": "string",
-            "description": "User's check-in date, YYYY-MM-DD, if given: links then open on this stay."
+            "description": "User's check-in date, YYYY-MM-DD (e.g. 2027-03-12), if given: links then open on this stay."
           },
           "checkout": {
             "type": "string",
-            "description": "Check-out date, YYYY-MM-DD."
+            "description": "Check-out date, YYYY-MM-DD (e.g. 2027-03-15)."
           },
           "adults": {
             "type": "integer",
             "minimum": 1,
             "maximum": 8,
-            "description": "Guests per room, if given."
+            "description": "Guests per room (1-8), if given."
           }
         },
         "required": [
@@ -265,21 +277,17 @@
         ]
       },
       "annotations": {
-        "title": "Get hotel",
+        "title": "Hotel details",
         "readOnlyHint": true,
         "destructiveHint": false,
         "idempotentHint": true,
         "openWorldHint": false
-      },
-      "_meta": {
-        "ui": {
-          "resourceUri": "ui://okstays/hotel-cards-v2"
-        }
       }
     },
     {
       "name": "list_cities",
-      "description": "Destinations covered, with hotel counts. Optionally only those in one country.",
+      "title": "Covered destinations",
+      "description": "Use this when the user asks which destinations OKstays covers, or before planning a trip through a country. Returns every destination we score with its country, slug and number of hotels; pass country to list one country only. Read-only, no sign-in.",
       "inputSchema": {
         "type": "object",
         "properties": {
@@ -290,7 +298,7 @@
         }
       },
       "annotations": {
-        "title": "List cities",
+        "title": "Covered destinations",
         "readOnlyHint": true,
         "destructiveHint": false,
         "idempotentHint": true,
@@ -299,13 +307,14 @@
     },
     {
       "name": "get_filters",
-      "description": "All comfort filters (ids, names, descriptions, categories) usable in search_hotels, plus the travel styles (personas).",
+      "title": "Filters and travel styles",
+      "description": "Use this to look up the comfort signals and travel styles that search_hotels accepts, when the user's wish doesn't map clearly to one. Returns every filter (id, name, description, category, whether it's a must-have) and every travel style. Plain names also work in search_hotels tags ('quiet', 'wifi'). Read-only, no sign-in.",
       "inputSchema": {
         "type": "object",
         "properties": {}
       },
       "annotations": {
-        "title": "Get filters",
+        "title": "Filters and travel styles",
         "readOnlyHint": true,
         "destructiveHint": false,
         "idempotentHint": true,
@@ -314,7 +323,8 @@
     },
     {
       "name": "compare_hotels",
-      "description": "Compare 2-4 hotels side by side: Comfort Score breakdown, price, strengths, caveats, the filters where they differ most, and a verdict (best comfort, cheapest, best value).",
+      "title": "Compare hotels",
+      "description": "Use this when the user is choosing between 2-4 specific hotels. Returns each hotel's Comfort Score breakdown, price, strengths and complaints, the signals where they differ most, and a verdict: best comfort, cheapest, best value. Hotel ids come from search_hotels (hotel_name finds a hotel the user names). Read-only, no sign-in.",
       "inputSchema": {
         "type": "object",
         "properties": {
@@ -329,17 +339,17 @@
           },
           "checkin": {
             "type": "string",
-            "description": "User's check-in date, YYYY-MM-DD, if given: links then open on this stay."
+            "description": "User's check-in date, YYYY-MM-DD (e.g. 2027-03-12), if given: links then open on this stay."
           },
           "checkout": {
             "type": "string",
-            "description": "Check-out date, YYYY-MM-DD."
+            "description": "Check-out date, YYYY-MM-DD (e.g. 2027-03-15)."
           },
           "adults": {
             "type": "integer",
             "minimum": 1,
             "maximum": 8,
-            "description": "Guests per room, if given."
+            "description": "Guests per room (1-8), if given."
           }
         },
         "required": [
@@ -355,13 +365,14 @@
       },
       "_meta": {
         "ui": {
-          "resourceUri": "ui://okstays/hotel-cards-v2"
+          "resourceUri": "ui://okstays/hotel-cards-v4"
         }
       }
     },
     {
       "name": "find_similar_hotels",
-      "description": "Hotels in the same city with the comfort profile closest to a given hotel (similar scores across the comfort filters). Use cheaper_only for 'like this one but cheaper'.",
+      "title": "Find similar hotels",
+      "description": "Use this when the user likes a hotel but wants alternatives, e.g. 'like this one but cheaper' (cheaper_only). Returns hotels in the same destination with the closest comfort profile, none with repeated complaints about cleanliness, beds, showers, bugs or safety, with the price difference. Read-only, no sign-in.",
       "inputSchema": {
         "type": "object",
         "properties": {
@@ -386,17 +397,17 @@
           },
           "checkin": {
             "type": "string",
-            "description": "User's check-in date, YYYY-MM-DD, if given: links then open on this stay."
+            "description": "User's check-in date, YYYY-MM-DD (e.g. 2027-03-12), if given: links then open on this stay."
           },
           "checkout": {
             "type": "string",
-            "description": "Check-out date, YYYY-MM-DD."
+            "description": "Check-out date, YYYY-MM-DD (e.g. 2027-03-15)."
           },
           "adults": {
             "type": "integer",
             "minimum": 1,
             "maximum": 8,
-            "description": "Guests per room, if given."
+            "description": "Guests per room (1-8), if given."
           }
         },
         "required": [
@@ -412,13 +423,14 @@
       },
       "_meta": {
         "ui": {
-          "resourceUri": "ui://okstays/hotel-cards-v2"
+          "resourceUri": "ui://okstays/hotel-cards-v4"
         }
       }
     },
     {
       "name": "get_city_overview",
-      "description": "Snapshot of a destination: hotel counts, average Comfort Score, median price, where its hotels beat and trail the average hotel, the best neighbourhoods, and which travel styles it suits. Use it when the user is choosing a destination or an area; for a request for hotels (e.g. 'quiet hotels in Bangkok'), call search_hotels directly.",
+      "title": "Destination overview",
+      "description": "Use this when the user is still choosing a destination or an area to stay in. Returns how many hotels we score, the average Comfort Score, median price, where its hotels beat and trail the average hotel, the best neighbourhoods with their top hotel, and which travel styles it suits. A request for hotels (e.g. 'quiet hotels in Bangkok') is search_hotels' job. Read-only, no sign-in.",
       "inputSchema": {
         "type": "object",
         "properties": {
@@ -428,17 +440,17 @@
           },
           "checkin": {
             "type": "string",
-            "description": "User's check-in date, YYYY-MM-DD, if given: links then open on this stay."
+            "description": "User's check-in date, YYYY-MM-DD (e.g. 2027-03-12), if given: links then open on this stay."
           },
           "checkout": {
             "type": "string",
-            "description": "Check-out date, YYYY-MM-DD."
+            "description": "Check-out date, YYYY-MM-DD (e.g. 2027-03-15)."
           },
           "adults": {
             "type": "integer",
             "minimum": 1,
             "maximum": 8,
-            "description": "Guests per room, if given."
+            "description": "Guests per room (1-8), if given."
           }
         },
         "required": [
@@ -446,7 +458,7 @@
         ]
       },
       "annotations": {
-        "title": "Get city overview",
+        "title": "Destination overview",
         "readOnlyHint": true,
         "destructiveHint": false,
         "idempotentHint": true,
@@ -454,13 +466,14 @@
       },
       "_meta": {
         "ui": {
-          "resourceUri": "ui://okstays/hotel-cards-v2"
+          "resourceUri": "ui://okstays/hotel-cards-v4"
         }
       }
     },
     {
       "name": "plan_trip",
-      "description": "Hotels for a multi-stop trip, one stay per destination in travel order (e.g. Lisbon 4 nights, Porto 3, Madrid 5): the best match for each stop by the OKstays Comfort Score (or the travel style's score), alternatives, the stay dates and an indicative total. Each hotel link opens its OKstays page with the stop's dates, so its Book Now button books those nights. Agree the stops and nights with the user first; list_cities shows which destinations of a country we cover.",
+      "title": "Plan a multi-stop trip",
+      "description": "Use this when the user plans a trip with several stops. Returns hotels for each stay in travel order (e.g. Lisbon 4 nights, Porto 3, Madrid 5): the best match for each stop by the OKstays Comfort Score (or the travel style's score), alternatives, the stay dates and an indicative total. Each hotel link opens its OKstays page with the stop's dates, so its Book Now button books those nights. Agree the stops and nights with the user first; list_cities shows which destinations of a country we cover. Read-only, no sign-in.",
       "inputSchema": {
         "type": "object",
         "properties": {
@@ -498,7 +511,17 @@
           },
           "persona": {
             "type": "string",
-            "description": "Travel style for every stop: digital-nomad, deep-sleep, avoid-crowds, romantic, family, business, solo-safe, luxury, budget-comfort."
+            "description": "Travel style for every stop: digital-nomad, deep-sleep, avoid-crowds, romantic, family, business, solo-safe, luxury, budget-comfort, long-stays."
+          },
+          "property_type": {
+            "type": "string",
+            "enum": [
+              "hotels",
+              "apartments",
+              "hostels",
+              "any"
+            ],
+            "description": "property_type: hotels (default), apartments, hostels or any. hotels includes guest houses, B&Bs, aparthotels and resorts; apartments includes holiday homes, villas and homestays; any adds every kind, boats and campsites too. The long-stays persona defaults to any."
           },
           "tags": {
             "type": "array",
@@ -536,7 +559,7 @@
         ]
       },
       "annotations": {
-        "title": "Plan trip",
+        "title": "Plan a multi-stop trip",
         "readOnlyHint": true,
         "destructiveHint": false,
         "idempotentHint": true,
@@ -544,10 +567,10 @@
       },
       "_meta": {
         "ui": {
-          "resourceUri": "ui://okstays/hotel-cards-v2"
+          "resourceUri": "ui://okstays/hotel-cards-v4"
         }
       }
     }
   ],
-  "version": "3.0.0"
+  "version": "4.1.0"
 }
