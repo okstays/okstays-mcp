@@ -5,7 +5,8 @@ Endpoint: `https://okstays.com/api/mcp` (streamable HTTP, no authentication). Se
 Every tool is **Read**: it retrieves information without changing data, account state or permissions, and needs no
 sign-in. All tools carry the MCP annotations `readOnlyHint: true`, `destructiveHint: false`, `idempotentHint: true`,
 `openWorldHint: false`. Results are JSON text. Prices are indicative nightly prices in USD. Hotel ids are numeric
-strings from search results. Each hotel comes with a link to its page on okstays.com.
+strings from search results. Each hotel comes with a link to its page on okstays.com. Hotels, apartments and hostels are
+ranked apart; every place carries its `kind` (`hotels`, `apartments`, `hostels` or `other`).
 
 **The user's stay:** `search_hotels`, `get_hotel`, `compare_hotels`, `find_similar_hotels` and `get_city_overview` also
 take `checkin` and `checkout` (YYYY-MM-DD, 1-30 nights, check-in today or later) and `adults` (1-8). Every hotel and
@@ -19,7 +20,8 @@ answer repeats it in `stay` and `stay_note`. Prices stay indicative, not quotes 
 **Inputs:** `location` (string, required): destination name or slug, e.g. `Lisbon`; the stay inputs.
 
 **Outputs:** hotels scored, average Comfort Score, median price, where the destination's hotels beat and trail the
-average hotel, the best neighbourhoods, the travel styles it suits, and its top hotels (id, name, Comfort Score, price).
+average hotel, the best neighbourhoods, the travel styles it suits, its top hotels (id, name, Comfort Score, price) and
+its ranked places by kind (`ranked_by_kind`).
 
 ## search_hotels
 
@@ -38,12 +40,15 @@ the hotels matching a name.
   `radius_km` (number, default 3)
 - `sort_by` (string): `best` (default), `cheapest`, `priciest`, `value` or `nearest`
 - `limit` (integer 1-10, default 10) and `page` (integer 1-5, default 1)
+- `property_type` (string): `hotels` (default; includes guest houses, B&Bs, aparthotels and resorts), `apartments`
+  (includes holiday homes, villas and homestays), `hostels` or `any`; the `long-stays` travel style defaults to `any`
 - `hotel_name` (string): look up a hotel by name in this destination (part of the name or a typo works), including
   hotels outside the rankings; the other filters are then ignored
 - the stay inputs
 
-**Outputs:** the destination, what the list is ranked by, the number of matches, and up to 10 hotels, each with id,
-name, Comfort Score, price, guest rating, review count, district, strengths, caveats and a link to its page; the
+**Outputs:** the destination, the kind of stay searched, what the list is ranked by, the number of matches, and up to
+10 places, each with id, name, `kind`, Comfort Score, price, guest rating and review count (both null unless a booking
+site confirmed them), district, strengths, caveats and a link to its page; the
 destination's page comes once, in `see_also`. When relevant, the
 hotels also carry the travel style's score, the distance in km or comfort points per $100. With more than one page:
 `pages` (current, total) and `next_page`. Hotels scored from guest reviews carry `evidence`. With `hotel_name`: the
@@ -56,11 +61,13 @@ matching hotels, each with `in_rankings` and, when false, `not_ranked_because`.
 **Inputs:** `hotel_id` (string, required); `detail` (`summary`, the default, or `full`: every signal, about four times
 longer); `focus` (array of filter ids or names the user asked about, e.g. `["quiet", "wifi"]`); the stay inputs.
 
-**Outputs:** name, location, district, address, description, image, price, guest rating, review count, Comfort Score,
-rank in its destination, whether it is in the rankings (`in_rankings`), what the scores are based on (`evidence`),
-score breakdown, the five must-haves, the strongest signals, the `focus` signals and the complaints, each with its
-explanation, and links. `detail: "full"` lists every filter's score instead (`filters`, with `must_have` on the five
-must-haves). Scores from guest reviews also say how many guests praised or complained (`guests`).
+**Outputs:** name, location, district, address, description, image, price, guest rating and review count (null unless
+a booking site confirmed them), `kind`, Comfort Score, rank among places of its kind in its destination (`city_rank`,
+out of `city_hotels`, and `rank_line`, e.g. "#1 hotel for comfort in Barcelona"), whether it is in the rankings
+(`in_rankings`), what the scores are based on (`evidence`), the Comfort Score's parts (`score_breakdown`: `must_haves`,
+`sleep_room`, `service`, `extras`, `location`), the five must-haves, the strongest signals, the `focus` signals and the
+complaints, each with a one-sentence explanation, and links. `detail: "full"` lists every filter's score instead
+(`filters`, with `must_have` on the five must-haves).
 
 ## compare_hotels
 
@@ -95,14 +102,16 @@ the destination's page in `see_also`.
 
 **Inputs:** none.
 
-**Outputs:** every comfort filter (id, name, description, category) and every travel style.
+**Outputs:** every comfort filter (id, name, description, category), the Comfort Score's parts with their weights
+(`comfort_score_parts`) and every travel style.
 
 ## plan_trip
 
 **Access:** Read. Hotels for a multi-stop trip.
 
 **Inputs:** `stops` (array of 1-8, required: `location`, `nights` 1-30, optional `district`), `start_date`
-(YYYY-MM-DD), `persona`, `tags`, `max_price`, `min_score`, `adults` (1-8, default 2), `alternatives` (0-3, default 2).
+(YYYY-MM-DD), `persona`, `property_type` (as in `search_hotels`), `tags`, `max_price`, `min_score`, `adults` (1-8,
+default 2), `alternatives` (0-3, default 2).
 
 **Outputs:** for each stop, the best match and alternatives with the stay dates, prices and links that open each
 hotel's page with those dates; an indicative total for the trip.

@@ -10,7 +10,48 @@ on the [official MCP Registry](https://registry.modelcontextprotocol.io) (`com.o
   by email.
 - Questions: hello@okstays.com
 
-## 3.1.0 (live)
+## 4.1.0 (live)
+
+- New Comfort Score weights, with the filter categories now the score's parts: Comfort & Essentials 60% (the five
+  must-haves 30%, sleep and room 30%), Perks & Facilities 15%, Service & Hospitality 15% and Access & Convenience 10%.
+  Style & Value (renamed from Vibe & Atmosphere) is not part of the score. Within each part, a quality counts by how
+  much it matters to guests and by how many reviews mention it at that place; one nobody mentions counts as at a
+  typical place, at half weight, so a single review never decides a part.
+- The `score_breakdown` keys stay the same; their names in `get_filters` `comfort_score_parts` are now "Must-haves",
+  "Sleep & room", "Service & Hospitality", "Perks & Facilities" (`extras`) and "Access & Convenience" (`location`).
+- `get_filters` groups the filters by these categories: Service & Hospitality now holds staff and services (12
+  qualities), and eleven filters changed category (for example quiet and safe area are in Comfort & Essentials, value
+  for money is in Style & Value).
+- The Comfort Score and travel-style scores are shown with two decimals everywhere, the hotel cards included (cards
+  resource `ui://okstays/hotel-cards-v4`). Signal scores and guest ratings keep one decimal.
+- The 8+ listing bar no longer rounds: a place needs a score of 8.00 or more (a 7.95 used to count as 8.0).
+- Lists sort by the score as shown, highest first; ties go to the place more guests reviewed. In 4.0.0 the order also
+  weighed how many guests reviewed each place, which could put a 9.30 above a 9.31.
+
+## 4.0.0
+
+Breaking changes, released without the usual 30 days' notice because no integration depended on these fields yet:
+- `score_breakdown` keys are now `must_haves`, `sleep_room`, `service`, `extras` and `location` (were `must_haves`,
+  `comfort`, `perks`, `access` and `service`): the Comfort Score is built from these parts.
+- The per-signal `guests` counts (praise, complaints) are removed: on hotels with thousands of reviews, "5 praise, 3
+  complaints" read as five reviews.
+
+New and changed:
+- Hotels, apartments and hostels are ranked apart: `property_type` on `search_hotels` and `plan_trip` (`hotels` by
+  default, `apartments`, `hostels` or `any`; the `long-stays` travel style defaults to `any`), and every place carries
+  `kind`. Rank lines follow the kind ("#1 hotel for comfort in Barcelona"); `city_rank` and `city_hotels` count within it.
+- Rankings weigh how many guests reviewed each place, so a high score from a handful of reviews doesn't outrank one
+  backed by hundreds. Complaints come in order of importance.
+- All five must-haves keep a place out of the rankings when guests keep reporting problems with them.
+- Travel-style scores are half the Comfort Score and half how well the place fits the style.
+- `get_city_overview`: `top_hotels` lists hotels only; `ranked_by_kind` gives the ranked places of each kind.
+- `get_filters` adds `comfort_score_parts` (id, name, weight).
+- Evidence lines say what the scores come from without review counts, and flag places with little evidence so far.
+- Every explanation is one plain sentence.
+- `guest_rating` and `reviews` are null unless a booking site confirmed them; impossible prices are null.
+- Faster first answers for large destinations.
+
+## 3.1.0
 
 - Every tool has a display title, and its description says when to use it and what it returns.
 - Hotel links also carry `via=mcp`, so okstays.com still recognises them after ChatGPT replaces `utm_source` with its own.
