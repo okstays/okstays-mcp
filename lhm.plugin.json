@@ -234,7 +234,7 @@
     {
       "name": "get_hotel",
       "title": "Hotel details",
-      "description": "Use this when the user asks about one hotel: why it scores as it does, or whether it's quiet, clean or good for sleep or work. Returns the Comfort Score breakdown, what the scores rest on, the five must-haves, its strengths and complaints with the reason behind each score, price and its okstays.com link. Pass focus with what the user asked about; detail='full' adds every scored signal (about four times longer). Read-only, no sign-in.",
+      "description": "Use this when the user asks about one hotel: why it scores as it does, or whether it's quiet, clean or good for sleep or work. Returns the Comfort Score breakdown, what the scores rest on, the five must-haves, its strengths and complaints with the reason behind each score, price, the city tax where we know it and its okstays.com link. Pass focus with what the user asked about; detail='full' adds every scored signal (about four times longer). Read-only, no sign-in.",
       "inputSchema": {
         "type": "object",
         "properties": {
@@ -430,7 +430,7 @@
     {
       "name": "get_city_overview",
       "title": "Destination overview",
-      "description": "Use this when the user is still choosing a destination or an area to stay in. Returns how many hotels we score, the average Comfort Score, median price, where its hotels beat and trail the average hotel, the best neighbourhoods with their top hotel, and which travel styles it suits. A request for hotels (e.g. 'quiet hotels in Bangkok') is search_hotels' job. Read-only, no sign-in.",
+      "description": "Use this when the user is still choosing a destination or an area to stay in. Returns how many hotels we score, the average Comfort Score, median price, where its hotels beat and trail the average hotel, the best neighbourhoods with their top hotel, which travel styles it suits, the city tax at a 4-star hotel, and when to go (pleasant, cool-night and quiet months, typical weather by month). A request for hotels (e.g. 'quiet hotels in Bangkok') is search_hotels' job. Read-only, no sign-in.",
       "inputSchema": {
         "type": "object",
         "properties": {
@@ -572,5 +572,5 @@
       }
     }
   ],
-  "version": "4.1.0"
+  "version": "4.2.0"
 }
