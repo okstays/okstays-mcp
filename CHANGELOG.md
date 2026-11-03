@@ -10,7 +10,15 @@ on the [official MCP Registry](https://registry.modelcontextprotocol.io) (`com.o
   by email.
 - Questions: hello@okstays.com
 
-## 4.2.0 (live)
+## 4.2.1 (live)
+
+- Fix: an area of a grouped destination works as `location`: "Canggu" or "Ubud" in Bali, "Phuket Town" or "Rawai" in
+  Phuket, "Positano" on the Amalfi Coast, "Oia" in Santorini, "Maafushi" or "Malé" in the Maldives. Canggu and Phuket
+  Town became areas of Bali and Phuket on 3 November 2026 and answered "Unknown location" since. `search_hotels` lists
+  that area's places and says so in `location_note`; `get_city_overview` gives the destination's overview with the
+  same note; `plan_trip` stops can name areas.
+
+## 4.2.0
 
 All additive.
 - City tax: hotel results (`search_hotels`, `get_hotel`, `compare_hotels`, `plan_trip` picks) carry `city_tax` where

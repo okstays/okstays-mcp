@@ -17,7 +17,8 @@ answer repeats it in `stay` and `stay_note`. Prices stay indicative, not quotes 
 
 **Access:** Read. A destination at a glance.
 
-**Inputs:** `location` (string, required): destination name or slug, e.g. `Lisbon`; the stay inputs.
+**Inputs:** `location` (string, required): destination name or slug, e.g. `Lisbon`; the stay inputs. An area of a grouped
+destination (`Canggu`, `Positano`, `Maafushi`) gives that destination's overview, with a `location_note`.
 
 **Outputs:** hotels scored, average Comfort Score, median price, where the destination's hotels beat and trail the
 average hotel, the best neighbourhoods, the travel styles it suits, its top hotels (id, name, Comfort Score, price) and
@@ -31,7 +32,8 @@ official visitor figures exist) and `typical_weather` (each month's high and low
 the hotels matching a name.
 
 **Inputs:**
-- `location` (string, required)
+- `location` (string, required): a destination, or an area of a grouped one (`Canggu` or `Ubud` in Bali, `Positano`,
+  `Maafushi`), which lists that area's places and adds a `location_note`
 - `persona` (string): a travel style, e.g. `deep-sleep`, `digital-nomad`, `family`, `romantic`, `business`, `luxury`
   (`get_filters` lists them all)
 - `tags` (array of strings): filters every hotel must score 8+ on, by id or name, e.g. `["soundproofing", "peaceful_quiet"]`
