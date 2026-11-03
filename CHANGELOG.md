@@ -10,7 +10,19 @@ on the [official MCP Registry](https://registry.modelcontextprotocol.io) (`com.o
   by email.
 - Questions: hello@okstays.com
 
-## 4.1.0 (live)
+## 4.2.0 (live)
+
+All additive.
+- City tax: hotel results (`search_hotels`, `get_hotel`, `compare_hotels`, `plan_trip` picks) carry `city_tax` where
+  our research covers the place, worded as on its OKstays page and in the currency the tax is charged in, e.g. "City
+  tax: about €6 a night for 2 adults, paid at the hotel". `get_hotel` adds the notes (exemptions, night caps, taxes
+  on hold).
+- `get_city_overview` adds `city_tax` (a 4-star hotel, 2 adults, as on the tourist-tax study) with `city_tax_study`,
+  and `when_to_go`: the pleasant months, the months with nights below 20°C, the quietest months where official visitor
+  figures exist, and the typical weather of every month (high, low, rainy days).
+- `plan_trip`: each dated stop gets its `typical_weather` in the check-in month.
+
+## 4.1.0
 
 - New Comfort Score weights, with the filter categories now the score's parts: Comfort & Essentials 60% (the five
   must-haves 30%, sleep and room 30%), Perks & Facilities 15%, Service & Hospitality 15% and Access & Convenience 10%.

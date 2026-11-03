@@ -21,7 +21,9 @@ answer repeats it in `stay` and `stay_note`. Prices stay indicative, not quotes 
 
 **Outputs:** hotels scored, average Comfort Score, median price, where the destination's hotels beat and trail the
 average hotel, the best neighbourhoods, the travel styles it suits, its top hotels (id, name, Comfort Score, price) and
-its ranked places by kind (`ranked_by_kind`).
+its ranked places by kind (`ranked_by_kind`), the city tax at a 4-star hotel for 2 adults (`city_tax`, with
+`city_tax_study`) and `when_to_go`: `best` (pleasant months), `sleep` (months with nights below 20°C), `quiet` (where
+official visitor figures exist) and `typical_weather` (each month's high and low in °C and rainy days).
 
 ## search_hotels
 
@@ -48,7 +50,8 @@ the hotels matching a name.
 
 **Outputs:** the destination, the kind of stay searched, what the list is ranked by, the number of matches, and up to
 10 places, each with id, name, `kind`, Comfort Score, price, guest rating and review count (both null unless a booking
-site confirmed them), district, strengths, caveats and a link to its page; the
+site confirmed them), district, strengths, caveats, the city tax where we know it (`city_tax`, in the currency it's
+charged in) and a link to its page; the
 destination's page comes once, in `see_also`. When relevant, the
 hotels also carry the travel style's score, the distance in km or comfort points per $100. With more than one page:
 `pages` (current, total) and `next_page`. Hotels scored from guest reviews carry `evidence`. With `hotel_name`: the
@@ -66,7 +69,8 @@ a booking site confirmed them), `kind`, Comfort Score, rank among places of its 
 out of `city_hotels`, and `rank_line`, e.g. "#1 hotel for comfort in Barcelona"), whether it is in the rankings
 (`in_rankings`), what the scores are based on (`evidence`), the Comfort Score's parts (`score_breakdown`: `must_haves`,
 `sleep_room`, `service`, `extras`, `location`), the five must-haves, the strongest signals, the `focus` signals and the
-complaints, each with a one-sentence explanation, and links. `detail: "full"` lists every filter's score instead
+complaints, each with a one-sentence explanation, the city tax with its notes (`city_tax`), and links. `detail:
+"full"` lists every filter's score instead
 (`filters`, with `must_have` on the five must-haves).
 
 ## compare_hotels
@@ -113,8 +117,9 @@ the destination's page in `see_also`.
 (YYYY-MM-DD), `persona`, `property_type` (as in `search_hotels`), `tags`, `max_price`, `min_score`, `adults` (1-8,
 default 2), `alternatives` (0-3, default 2).
 
-**Outputs:** for each stop, the best match and alternatives with the stay dates, prices and links that open each
-hotel's page with those dates; an indicative total for the trip.
+**Outputs:** for each stop, the best match and alternatives with the stay dates, prices, city tax and links that open
+each hotel's page with those dates, and, with dates, the stop's `typical_weather` in its check-in month; an indicative
+total for the trip.
 
 ## Prompts
 

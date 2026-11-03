@@ -19,9 +19,10 @@ This is a hosted, read-only MCP server. There is nothing to install and no accou
 
 ## Connect
 
-**Claude (web and desktop):** Customize → Add → Add custom connector. Name it OKstays, paste
-`https://okstays.com/api/mcp` as the server URL, no sign-in, then connect and allow the tools. Works on every Claude
-plan, including Free.
+**Claude (web and desktop):** OKstays is in Claude's connector directory: open
+[claude.ai/directory/connectors/okstays](https://claude.ai/directory/connectors/okstays), click Connect and allow the
+tools (no sign-in). Or add it yourself: Customize → Add → Add custom connector, name it OKstays and paste
+`https://okstays.com/api/mcp` as the server URL. Works on every Claude plan; Free allows one custom connector.
 
 **Claude Code:**
 ```
@@ -70,7 +71,7 @@ All eight tools only read data. Inputs, outputs and access level for each: [TOOL
 
 | Tool | What it does |
 |---|---|
-| `get_city_overview` | A destination at a glance: hotels scored, average Comfort Score, median price, what its hotels do best and worst, the best neighbourhoods, the travel styles it suits |
+| `get_city_overview` | A destination at a glance: hotels scored, average Comfort Score, median price, what its hotels do best and worst, the best neighbourhoods, the travel styles it suits, the city tax and when to go |
 | `search_hotels` | Up to 10 hotels (or apartments or hostels) per page in a city ranked by Comfort Score, optionally for a travel style (deep sleep, digital nomad, family, romantic, business, solo, luxury, budget, avoid the crowds), required qualities, price, neighbourhood or distance from a landmark; or a hotel looked up by name |
 | `get_hotel` | One hotel: score breakdown, what the scores are based on, the must-haves, strengths and complaints with their explanations (every signal on request), price, link |
 | `compare_hotels` | Two to four hotels side by side, with a verdict: best comfort, cheapest, best value |
