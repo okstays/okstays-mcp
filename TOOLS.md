@@ -26,6 +26,8 @@ its ranked places by kind (`ranked_by_kind`), the city tax at a 4-star hotel for
 `city_tax_study`) and `when_to_go`: `best` (pleasant months), `sleep` (months with nights below 20°C), `quiet` (where
 official visitor figures exist) and `typical_weather` (each month's high and low in °C and rainy days).
 
+
+`where_to_stay` (where okstays.com has a guide): `picks` (for a first visit, quiet nights, nightlife, families and value: the area and why, as the guide words it), `areas` (up to 10: `places`, `typical_price_usd`, `comfort_score`, `km_from_centre`, `hotels_on_loud_streets_percent`, `bars_within_300m_of_typical_hotel`, `sights_within_500m_of_typical_hotel`, `traits`, `top_places`) and `guide`, the page's link. Area names work as `search_hotels`' `district`.
 ## search_hotels
 
 **Access:** Read. Up to 10 hotels per page in a destination, ranked by Comfort Score or by a travel style's score, or
@@ -67,7 +69,7 @@ matching hotels, each with `in_rankings` and, when false, `not_ranked_because`.
 longer); `focus` (array of filter ids or names the user asked about, e.g. `["quiet", "wifi"]`); the stay inputs.
 
 **Outputs:** name, location, district, address, description, image, price, guest rating and review count (null unless
-a booking site confirmed them), `kind`, Comfort Score, rank among places of its kind in its destination (`city_rank`,
+a booking site confirmed them), `kind`, Comfort Score (with `comfort_score_note` when few reviews lowered it), rank among places of its kind in its destination (`city_rank`,
 out of `city_hotels`, and `rank_line`, e.g. "#1 hotel for comfort in Barcelona"), whether it is in the rankings
 (`in_rankings`), what the scores are based on (`evidence`), the Comfort Score's parts (`score_breakdown`: `must_haves`,
 `sleep_room`, `service`, `extras`, `location`), the five must-haves, the strongest signals, the `focus` signals and the
@@ -128,7 +130,20 @@ total for the trip.
 For clients that show MCP prompts (Claude, Claude Desktop, VS Code): `find_hotel` (destination; optional what matters,
 budget, dates, guests), `plan_my_trip` (stops; optional start date, travel style, budget), `compare_my_hotels`
 (hotel names; optional city) and `choose_area` (destination; optional what matters). Each returns a user message that
-asks for the right tools with those details.
+asks for the right tools with those details. Clients with argument completion (`completion/complete`) suggest
+destinations, travel styles and the next stop of a trip as the user types.
+
+## Hotel cards (MCP Apps)
+
+In hosts that render MCP Apps (Claude, ChatGPT and others), `search_hotels`, `find_similar_hotels`, `compare_hotels`,
+`get_city_overview` and `plan_trip` also show hotel cards (`ui://okstays/hotel-cards-v5`): photo, Comfort Score, price,
+area, top strengths, the main guest complaint and a link to the hotel's page. The model reads the same JSON text as
+always; the cards' data travels in the result's `_meta` and never reaches the model.
+- Lists show up to 8 cards; sort buttons reorder the hotels shown without a tool call.
+- Where the host offers full screen: every loaded hotel in a grid, and Show more, which calls `search_hotels` for the
+  next page through the host (the tool is visible to the model and the app). The host is told which hotels the user
+  loaded (`ui/update-model-context`).
+- `compare_hotels` can show a table: Comfort Score, price, guest rating, area, the four parts and the main differences.
 
 ## Errors and limits
 

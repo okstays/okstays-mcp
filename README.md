@@ -6,9 +6,10 @@ Find hotels you'll actually sleep well in. OKstays scores 30,000+ hotels in 80+ 
 what guests report (efficient AC, comfy beds, real soundproofing, quiet nights, spacious rooms, recent renovations, safe
 and walkable neighbourhoods and more). The Comfort Score, from 0 to 10, combines the 51 that make a stay comfortable:
 Comfort & Essentials 60% (five must-haves, clean, comfy beds, good shower, bug-free and safe area, 30%, and sleep and
-room 30%), Perks & Facilities 15%, Service & Hospitality 15% and Access & Convenience 10%. A hotel whose guests keep
-reporting a must-have problem is never ranked, hotels, apartments and hostels are ranked apart, and hotels can't pay
-to be ranked.
+room 30%), Perks & Facilities 15%, Service & Hospitality 15% and Location & Access 10%. A high score from few reviews
+leans toward the destination's typical score until more guests review the place. A hotel whose guests keep reporting
+problems with cleanliness, beds, showers or bugs is never ranked, hotels, apartments and hostels are ranked apart, and
+hotels can't pay to be ranked.
 
 This is a hosted, read-only MCP server. There is nothing to install and no account or API key.
 

@@ -10,7 +10,38 @@ on the [official MCP Registry](https://registry.modelcontextprotocol.io) (`com.o
   by email.
 - Questions: hello@okstays.com
 
-## 4.2.1 (live)
+## 4.3.0 (live)
+
+Scores and results (from 4 November 2026; the same on okstays.com):
+- The Comfort Score weighs how many guests reviewed a place: a high score from few reviews leans toward the typical score
+  of places of its kind in its destination until more guests review it (its own score counts half at 25 reviews, 80% at
+  100 and 98% at 1,000). It only ever lowers a score. `get_hotel` adds `comfort_score_note` where it lowered one, e.g.
+  "9.07 from 28 reviews; it counts as 8.74 until more guests review it".
+- A facility, service or nearby perk a place has never counts below a typical one in the Comfort Score.
+- Neighbourhood safety no longer keeps a place out of the rankings; guests' complaints about it show as the caveat
+  "feeling unsafe in the area". Repeated problems with cleanliness, beds, showers or bugs still do.
+- The location part is called Location & Access (was Access & Convenience); storage space counts in sleep and room.
+- A quality whose explanation only cited a booking site's score now says how guests rated it, e.g. "Guests rate the WiFi
+  highly."
+- Hotel cards show our own copy of a hotel's photo where we have one.
+
+Hotel cards (MCP Apps) v5; the text the model reads is unchanged:
+- Lists show up to 8 cards and a last tile for the rest; sort buttons reorder the hotels shown (the search's own order,
+  Comfort, Price, Nearest).
+- Full screen where the host offers it: all loaded hotels in a grid, and Show more, which loads the search's next page
+  through the host (`search_hotels` is visible to the app as well as the model).
+- `compare_hotels` can show a table: Comfort Score, price, guest rating, area, the four parts and the main differences,
+  the best of each row marked.
+- Skeleton cards while loading, safe-area insets, 44px tap targets. Resource URI: `ui://okstays/hotel-cards-v5`.
+- Prompt arguments complete as you type (`completion/complete`): destinations, travel styles and trip stops, then the
+  areas of grouped destinations ("cang" suggests Canggu).
+- Fix: a request whose `params` isn't an object gets a JSON-RPC error (-32602) instead of an HTTP 500.
+- `get_city_overview` adds `where_to_stay` where okstays.com has a Where to stay guide: the area for a first visit,
+  quiet nights, nightlife, families and value, each with the guide's reason, and up to 10 areas with their places,
+  typical price, Comfort Score, distance from the centre, share of hotels on loud streets, bars and sights near the
+  typical hotel, traits and top places. `search_hotels`' `district` accepts these area names.
+
+## 4.2.1
 
 - Fix: an area of a grouped destination works as `location`: "Canggu" or "Ubud" in Bali, "Phuket Town" or "Rawai" in
   Phuket, "Positano" on the Amalfi Coast, "Oia" in Santorini, "Maafushi" or "Malé" in the Maldives. Canggu and Phuket
