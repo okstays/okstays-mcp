@@ -106,7 +106,7 @@
     {
       "name": "hotel_cards",
       "title": "OKstays hotel cards",
-      "uri": "ui://okstays/hotel-cards-v4",
+      "uri": "ui://okstays/hotel-cards-v5",
       "description": "Hotel cards with photo, Comfort Score, price and a link to the hotel's OKstays page.",
       "mimeType": "text/html;profile=mcp-app"
     }
@@ -115,13 +115,13 @@
     {
       "name": "search_hotels",
       "title": "Search hotels",
-      "description": "Use this when the user wants hotels in a destination (e.g. 'quiet hotels in Bangkok under $150'), or asks about a hotel by name (hotel_name). Returns up to 10 hotels per page, ranked by the OKstays Comfort Score (0-10 from what guests report: Comfort & Essentials 60%, the five must-haves (cleanliness, beds, shower, bugs and safety) 30% and sleep and room 30%; Perks & Facilities 15%; Service & Hospitality 15%; Access & Convenience 10%; repeated complaints about any must-have keep a hotel out) or by a travel style's score (half the Comfort Score, half how well it fits the style), highest first (ties go to the hotel more guests reviewed), each with strengths, complaints, indicative price and its okstays.com link. Filters: travel style, signals the hotel must score 8+ on, price, minimum score, neighbourhood, distance from a point, and the kind of stay: property_type hotels (default), apartments, hostels or any (the long-stays persona defaults to any). Pass the user's dates and guests when known. Places to stay only, not flights or car hire. Read-only, no sign-in.",
+      "description": "Use this when the user wants hotels in a destination (e.g. 'quiet hotels in Bangkok under $150'), or asks about a hotel by name (hotel_name). Returns up to 10 hotels per page, ranked by the OKstays Comfort Score (0-10 from what guests report: Comfort & Essentials 60%, the five must-haves (cleanliness, beds, shower, bugs and safety) 30% and sleep and room 30%; Perks & Facilities 15%; Service & Hospitality 15%; Location & Access 10%; repeated complaints about cleanliness, beds, showers or bugs keep a hotel out; feeling unsafe in the area shows as a complaint; a high score from few reviews leans toward the destination's typical score until more guests review the place) or by a travel style's score (half the Comfort Score, half how well it fits the style), highest first (ties go to the hotel more guests reviewed), each with strengths, complaints, indicative price and its okstays.com link. Filters: travel style, signals the hotel must score 8+ on, price, minimum score, neighbourhood, distance from a point, and the kind of stay: property_type hotels (default), apartments, hostels or any (the long-stays persona defaults to any). Pass the user's dates and guests when known. Places to stay only, not flights or car hire. Read-only, no sign-in.",
       "inputSchema": {
         "type": "object",
         "properties": {
           "location": {
             "type": "string",
-            "description": "City name or slug, e.g. 'Barcelona' or 'new-york'. Use list_cities for coverage."
+            "description": "City name or slug, e.g. 'Barcelona' or 'new-york'. Use list_cities for coverage. An area of a grouped destination works too ('Canggu' or 'Ubud' in Bali, 'Positano' on the Amalfi Coast, 'Maafushi' in the Maldives): its places are shown."
           },
           "persona": {
             "type": "string",
@@ -157,7 +157,7 @@
           },
           "district": {
             "type": "string",
-            "description": "Neighbourhood to restrict to, e.g. 'Gothic Quarter'. get_city_overview lists the districts; another area name is matched against hotel addresses."
+            "description": "Neighbourhood to restrict to, e.g. 'Gothic Quarter'. get_city_overview lists the districts and its where_to_stay areas; another area name is matched against hotel addresses."
           },
           "near_lat": {
             "type": "number",
@@ -227,8 +227,13 @@
       },
       "_meta": {
         "ui": {
-          "resourceUri": "ui://okstays/hotel-cards-v4"
-        }
+          "resourceUri": "ui://okstays/hotel-cards-v5",
+          "visibility": [
+            "model",
+            "app"
+          ]
+        },
+        "openai/widgetAccessible": true
       }
     },
     {
@@ -365,7 +370,7 @@
       },
       "_meta": {
         "ui": {
-          "resourceUri": "ui://okstays/hotel-cards-v4"
+          "resourceUri": "ui://okstays/hotel-cards-v5"
         }
       }
     },
@@ -423,20 +428,20 @@
       },
       "_meta": {
         "ui": {
-          "resourceUri": "ui://okstays/hotel-cards-v4"
+          "resourceUri": "ui://okstays/hotel-cards-v5"
         }
       }
     },
     {
       "name": "get_city_overview",
       "title": "Destination overview",
-      "description": "Use this when the user is still choosing a destination or an area to stay in. Returns how many hotels we score, the average Comfort Score, median price, where its hotels beat and trail the average hotel, the best neighbourhoods with their top hotel, which travel styles it suits, the city tax at a 4-star hotel, and when to go (pleasant, cool-night and quiet months, typical weather by month). A request for hotels (e.g. 'quiet hotels in Bangkok') is search_hotels' job. Read-only, no sign-in.",
+      "description": "Use this when the user is still choosing a destination or an area to stay in. Returns how many hotels we score, the average Comfort Score, median price, where its hotels beat and trail the average hotel, the best neighbourhoods with their top hotel, which travel styles it suits, the city tax at a 4-star hotel, when to go (pleasant, cool-night and quiet months, typical weather by month) and, where we have a guide, where to stay: the area for a first visit, quiet nights, nightlife, families and value, with each area's price, comfort, street noise and bars. A request for hotels (e.g. 'quiet hotels in Bangkok') is search_hotels' job. Read-only, no sign-in.",
       "inputSchema": {
         "type": "object",
         "properties": {
           "location": {
             "type": "string",
-            "description": "City name or slug."
+            "description": "City name or slug (an area such as Canggu gives its destination's overview)."
           },
           "checkin": {
             "type": "string",
@@ -466,7 +471,7 @@
       },
       "_meta": {
         "ui": {
-          "resourceUri": "ui://okstays/hotel-cards-v4"
+          "resourceUri": "ui://okstays/hotel-cards-v5"
         }
       }
     },
@@ -567,10 +572,10 @@
       },
       "_meta": {
         "ui": {
-          "resourceUri": "ui://okstays/hotel-cards-v4"
+          "resourceUri": "ui://okstays/hotel-cards-v5"
         }
       }
     }
   ],
-  "version": "4.2.0"
+  "version": "4.3.0"
 }
