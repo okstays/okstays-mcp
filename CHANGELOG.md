@@ -10,7 +10,23 @@ on the [official MCP Registry](https://registry.modelcontextprotocol.io) (`com.o
   by email.
 - Questions: hello@okstays.com
 
-## 4.3.0 (live)
+## 4.4.0 (live)
+
+Coverage and answers (from 12 November 2026; the same on okstays.com):
+- 17 new destinations: Lake Como, Madeira, the Algarve, Koh Samui, Hoi An, Krabi, Ibiza, Chania, Playa del Carmen, Tulum,
+  Cusco, San Diego, Tenerife, Pattaya, Siem Reap, Cartagena and Mykonos (117 in all), and more places in 12 cities.
+  Islands, coasts and the lake are one destination each, with their towns as areas (`location: "Funchal"` or
+  `"Chaweng"` finds the destination and the area).
+- A place with no guest review in two years is out of the rankings; `get_hotel` answers that it isn't ranked and since
+  when nobody has reviewed it, so agents can tell travellers to check it's still open.
+- `get_hotel`'s evidence line no longer counts the sites read: "Based on guest reviews on booking and review sites,
+  checked November 2026."
+- Rank lines say apartments or villas where a destination's list holds them.
+- Destination names: "Tbilisi City" (the old name) finds Tbilisi; either half of a two-language name finds the place
+  ("San Sebastian" finds Donostia-San Sebastián).
+- Texts use British spelling.
+
+## 4.3.0
 
 Scores and results (from 4 November 2026; the same on okstays.com):
 - The Comfort Score weighs how many guests reviewed a place: a high score from few reviews leans toward the typical score
