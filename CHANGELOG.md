@@ -10,7 +10,21 @@ on the [official MCP Registry](https://registry.modelcontextprotocol.io) (`com.o
   by email.
 - Questions: hello@okstays.com
 
-## 4.4.0 (live)
+## 4.4.1 (live)
+
+Scores and order (from 16 November 2026; the same on okstays.com):
+- Ties: of two hotels with the same score, `search_hotels` puts first the one with the better Comfort & Essentials score,
+  then the one more guests reviewed (before, reviews alone decided).
+- A dated or old-fashioned look no longer lowers the Comfort Score. What an old room does to a stay (a tired shower, thin
+  windows, an old mattress, a weak AC) keeps its own score.
+- At a resort that is the only place to stay on its island, walkability and what's nearby count as typical, so the island
+  isn't marked down for being one.
+- Sleep and room: quiet, soundproofing, air conditioning, room size and renovation now count equally within the part, so
+  air conditioning counts more than before and renovation less. Comfort Scores change accordingly.
+- The Deep Sleep travel style no longer weighs renovation: it weighs sleep itself (quiet, soundproofing, air conditioning,
+  the bed). Luxury and Romantic keep it.
+
+## 4.4.0
 
 Coverage and answers (from 12 November 2026; the same on okstays.com):
 - 17 new destinations: Lake Como, Madeira, the Algarve, Koh Samui, Hoi An, Krabi, Ibiza, Chania, Playa del Carmen, Tulum,
