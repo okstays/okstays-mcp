@@ -8,7 +8,7 @@ and walkable neighbourhoods and more). The Comfort Score, from 0 to 10, combines
 Comfort & Essentials 60% (five must-haves, clean, comfy beds, good shower, bug-free and safe area, 30%, and sleep and
 room 30%), Perks & Facilities 15%, Service & Hospitality 15% and Location & Access 10%. A high score from few reviews
 leans toward the destination's typical score until more guests review the place. A hotel whose guests keep reporting
-problems with cleanliness, beds, showers or bugs is never ranked, hotels, apartments and hostels are ranked apart, and
+problems with cleanliness, beds, showers or bugs is never ranked, hotels, apartments, guest houses and hostels are ranked apart, and
 hotels can't pay to be ranked.
 
 This is a hosted, read-only MCP server. There is nothing to install and no account or API key.
@@ -73,7 +73,7 @@ All eight tools only read data. Inputs, outputs and access level for each: [TOOL
 | Tool | What it does |
 |---|---|
 | `get_city_overview` | A destination at a glance: hotels scored, average Comfort Score, median price, what its hotels do best and worst, the best neighbourhoods, the travel styles it suits, the city tax and when to go |
-| `search_hotels` | Up to 10 hotels (or apartments or hostels) per page in a city ranked by Comfort Score, optionally for a travel style (deep sleep, digital nomad, family, romantic, business, solo, luxury, budget, avoid the crowds), required qualities, price, neighbourhood or distance from a landmark; or a hotel looked up by name |
+| `search_hotels` | Up to 10 hotels (or apartments, guest houses or hostels) per page in a city ranked by Comfort Score, optionally for a travel style (deep sleep, digital nomad, family, romantic, business, solo, luxury, budget, avoid the crowds), required qualities, price, neighbourhood or distance from a landmark; or a hotel looked up by name |
 | `get_hotel` | One hotel: score breakdown, what the scores are based on, the must-haves, strengths and complaints with their explanations (every signal on request), price, link |
 | `compare_hotels` | Two to four hotels side by side, with a verdict: best comfort, cheapest, best value |
 | `find_similar_hotels` | Hotels in the same city that score most like a given one, optionally cheaper |

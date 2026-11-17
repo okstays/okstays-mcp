@@ -10,7 +10,20 @@ on the [official MCP Registry](https://registry.modelcontextprotocol.io) (`com.o
   by email.
 - Questions: hello@okstays.com
 
-## 4.4.1 (live)
+## 4.5.0 (live)
+
+Kinds of stay (from 17 November 2026; the same on okstays.com):
+- Guest houses, B&Bs and homestays are a kind of stay of their own. `search_hotels` and `plan_trip` take `property_type`
+  `guest-houses`, every place's `kind` can be `guest-houses`, and `get_city_overview` ranks them apart in
+  `ranked_by_kind`. Before, guest houses and B&Bs counted as hotels and homestays as apartments.
+- So `property_type: hotels` (the default) now lists hotels, resorts, riads and ryokans, without guest houses, B&Bs or
+  aparthotels; `apartments` lists apartments, aparthotels, holiday homes, villas and chalets, without homestays.
+- A destination's travel styles in `get_city_overview` count its hotels, as their pages list them.
+- `get_city_overview`'s `page` is the destination's page on okstays.com, `/destinations/<city>`: each kind's best places,
+  with a link to each kind's own list.
+- Rank lines name a destination's holiday homes "houses" ("#4 apartment or house in Kyoto"), as okstays.com does.
+
+## 4.4.1
 
 Scores and order (from 16 November 2026; the same on okstays.com):
 - Ties: of two hotels with the same score, `search_hotels` puts first the one with the better Comfort & Essentials score,

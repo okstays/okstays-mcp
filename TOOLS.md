@@ -5,8 +5,8 @@ Endpoint: `https://okstays.com/api/mcp` (streamable HTTP, no authentication). Se
 Every tool is **Read**: it retrieves information without changing data, account state or permissions, and needs no
 sign-in. All tools carry the MCP annotations `readOnlyHint: true`, `destructiveHint: false`, `idempotentHint: true`,
 `openWorldHint: false`. Results are JSON text. Prices are indicative nightly prices in USD. Hotel ids are numeric
-strings from search results. Each hotel comes with a link to its page on okstays.com. Hotels, apartments and hostels are
-ranked apart; every place carries its `kind` (`hotels`, `apartments`, `hostels` or `other`).
+strings from search results. Each hotel comes with a link to its page on okstays.com. Hotels, apartments, guest houses and
+hostels are ranked apart; every place carries its `kind` (`hotels`, `apartments`, `guest-houses`, `hostels` or `other`).
 
 **The user's stay:** `search_hotels`, `get_hotel`, `compare_hotels`, `find_similar_hotels` and `get_city_overview` also
 take `checkin` and `checkout` (YYYY-MM-DD, 1-30 nights, check-in today or later) and `adults` (1-8). Every hotel and
@@ -46,8 +46,9 @@ the hotels matching a name.
   `radius_km` (number, default 3)
 - `sort_by` (string): `best` (default), `cheapest`, `priciest`, `value` or `nearest`
 - `limit` (integer 1-10, default 10) and `page` (integer 1-5, default 1)
-- `property_type` (string): `hotels` (default; includes guest houses, B&Bs, aparthotels and resorts), `apartments`
-  (includes holiday homes, villas and homestays), `hostels` or `any`; the `long-stays` travel style defaults to `any`
+- `property_type` (string): `hotels` (default; includes resorts, riads and ryokans), `apartments` (includes
+  aparthotels, holiday homes, villas and chalets), `guest-houses` (includes B&Bs and homestays), `hostels` or `any`; the
+  `long-stays` travel style defaults to `any`
 - `hotel_name` (string): look up a hotel by name in this destination (part of the name or a typo works), including
   hotels outside the rankings; the other filters are then ignored
 - the stay inputs
